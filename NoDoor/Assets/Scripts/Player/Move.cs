@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class Move : MonoBehaviour
 {
+    private enum playerState
+    {
+        alive,
+        die
+    }
     private bool isGrounded;
     private float horizontial;
     public float speed = 5f;
@@ -14,13 +17,16 @@ public class Move : MonoBehaviour
     private Vector3 position;
     private Rigidbody2D rig;
     private Collider2D col;
+    private playerState state;
+    private Scene nowScenen;
 
     [SerializeField] private LayerMask jumpGround;
 
     private enum MovementState{ idle, run, jump, fall };
     private void Start()
     {
-
+        nowScenen = SceneManager.GetActiveScene();
+        state = playerState.alive;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rig = GetComponent<Rigidbody2D>();
@@ -31,20 +37,28 @@ public class Move : MonoBehaviour
         PlayerJump();
         PlayerMove();
         CheckAnimationState();
+        if (transform.position.y < -12f)
+        {
+            state = playerState.die;
+        }
+        if (state == playerState.die)
+        {
+            SceneManager.LoadScene(nowScenen.name, LoadSceneMode.Single);
+        }
     }
 
     private void PlayerMove()
     {
         horizontial = Input.GetAxis("Horizontal");
         position = new Vector3(horizontial, 0, 0).normalized;
-        transform.Translate(position * Time.deltaTime * speed);
+        rig.velocity = new Vector2 (position.x * velocitySpeed, rig.velocity.y);
     }
 
     private void PlayerJump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGround())
         {
-            this.GetComponent<Rigidbody2D>().velocity = new Vector3(0, velocitySpeed, 0);
+            rig.velocity = new Vector3(0, velocitySpeed, 0);
         }
     }
 
@@ -81,13 +95,13 @@ public class Move : MonoBehaviour
     {
         if (collision.gameObject.tag == "Door")
         {
-            Debug.Log("ÃÅÊÇ´¥·¢Æ÷");
-            collision.gameObject.GetComponent<Animator>().SetBool("gameOver", true);
+            SceneManager.LoadScene(nowScenen.buildIndex + 1, LoadSceneMode.Single);
         }
     }
 
     private bool isGround()
     {
+        
         return Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, .1f, jumpGround);
     }
 }
