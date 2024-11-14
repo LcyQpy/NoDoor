@@ -9,12 +9,4 @@ public class door : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("´¥·¢Æ÷¼ì²â");
-        if (collision.gameObject.tag == "Player")
-        {
-            animator.SetBool("gameOver", true);
-        }
-    }
 }

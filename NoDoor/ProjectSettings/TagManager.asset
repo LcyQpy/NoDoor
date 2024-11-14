@@ -48,3 +48,6 @@ TagManager:
   - name: bg
     uniqueID: 3503199707
     locked: 0
+  - name: mask
+    uniqueID: 3148971855
+    locked: 0

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Move : MonoBehaviour
+public class PlayerControl : MonoBehaviour
 {
     private enum playerState
     {
@@ -10,11 +10,14 @@ public class Move : MonoBehaviour
     }
     private bool isGrounded;
     private float horizontial;
-    public float speed = 5f;
-    public float velocitySpeed = 10f;
+    public float velocitySpeedX = 10f;
+    public float velocitySpeedY = 10f;
+    private bool hasKey;
     private Animator animator;
+    private float dirX;
     private SpriteRenderer spriteRenderer;
-    private Vector3 position;
+    [SerializeField]
+    private Vector2 te;
     private Rigidbody2D rig;
     private Collider2D col;
     private playerState state;
@@ -25,6 +28,7 @@ public class Move : MonoBehaviour
     private enum MovementState{ idle, run, jump, fall };
     private void Start()
     {
+        hasKey = false;
         nowScenen = SceneManager.GetActiveScene();
         state = playerState.alive;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -50,27 +54,28 @@ public class Move : MonoBehaviour
     private void PlayerMove()
     {
         horizontial = Input.GetAxis("Horizontal");
-        position = new Vector3(horizontial, 0, 0).normalized;
-        rig.velocity = new Vector2 (position.x * velocitySpeed, rig.velocity.y);
+        dirX = horizontial;
+        rig.velocity = new Vector2 (horizontial * velocitySpeedX, rig.velocity.y);
+        te = rig.velocity;
     }
 
     private void PlayerJump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGround())
         {
-            rig.velocity = new Vector3(0, velocitySpeed, 0);
+            rig.velocity = new Vector2(0, velocitySpeedY);
         }
     }
 
     private void CheckAnimationState()
     {
         MovementState state;
-        if (position.x > 0)
+        if (dirX > 0)
         {
             state = MovementState.run;
             spriteRenderer.flipX = false;
         }
-        else if(position.x < 0)
+        else if(dirX < 0)
         {
             state = MovementState.run;
             spriteRenderer.flipX = true;
@@ -95,13 +100,14 @@ public class Move : MonoBehaviour
     {
         if (collision.gameObject.tag == "Door")
         {
-            SceneManager.LoadScene(nowScenen.buildIndex + 1, LoadSceneMode.Single);
+            GameManager.Instance.GameOver();
         }
     }
 
     private bool isGround()
     {
-        
         return Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, .1f, jumpGround);
     }
+
+
 }
