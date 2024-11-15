@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
     private float horizontial;
     public float velocitySpeedX = 10f;
     public float velocitySpeedY = 10f;
-    private bool hasKey;
+    private bool hasKey = false;
     private Animator animator;
     private float dirX;
     private SpriteRenderer spriteRenderer;
@@ -98,9 +98,14 @@ public class PlayerControl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Door")
+        Debug.Log(collision.name);
+        if (collision.gameObject.tag == "Door" && hasKey)
         {
             GameManager.Instance.GameOver();
+        }
+        else if(collision.gameObject.tag == "Key")
+        {
+            hasKey = true;
         }
     }
 
@@ -108,6 +113,4 @@ public class PlayerControl : MonoBehaviour
     {
         return Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, .1f, jumpGround);
     }
-
-
 }

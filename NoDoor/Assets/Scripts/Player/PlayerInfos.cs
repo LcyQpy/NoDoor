@@ -1,24 +1,35 @@
 using UnityEngine;
-using Unity.IO;
 using System.IO;
-using UnityEngine.Assertions.Must;
+using System;
+using UnityEditor.Playables;
 
-public class PlayerInfos
+public class PlayerInfos : MonoBehaviour
 {
-    public PlayerInfo playerInfo = new PlayerInfo();
-
-    private void DataInit()
+    private static PlayerInfos instance;
+    public static PlayerInfos Instance
     {
-        playerInfo.hideKey = 0;
-        playerInfo.nowLevel = 0;
+        get
+        {
+            if (instance == null)
+            { 
+                instance = new PlayerInfos();
+            }
+            return instance;
+        }
     }
 
-    public void SaveGameData()
+    public PlayerInfo playerInfo = new PlayerInfo();
+    private void Start()
     {
-        if (playerInfo == null)
-        {
-            DataInit();
-        }
+        LoadGameData();
+    }
+
+    private void InitPlayerInfo()
+    {
+        playerInfo = new PlayerInfo();
+    }
+    public void SaveGameData( )
+    {
         string json = JsonUtility.ToJson(playerInfo);
         string filePath = Application.streamingAssetsPath + "/PlayerData.json";
         using (StreamWriter sw = new StreamWriter(filePath))
@@ -39,26 +50,40 @@ public class PlayerInfos
             {
                 json = sr.ReadToEnd();
                 sr.Close();
+                playerInfo = JsonUtility.FromJson<PlayerInfo>(json);
             }
-            playerInfo = JsonUtility.FromJson<PlayerInfo>(json);
         }
         else
         {
-            DataInit();
+            InitPlayerInfo();
         }
     }
-
-    public void SetPlayerInfo(int index)
+    private void OnDestroy()
     {
-        if (index > playerInfo.nowLevel)
-        {
-            playerInfo.nowLevel = index;
-        }
+        SaveGameData();
+        playerInfo.SetTotalTime(Time.realtimeSinceStartup);
     }
 }
 
 public class PlayerInfo
 {
-    public int hideKey;    
-    public int nowLevel;
+    public int hideKey = 0;    
+    public int nowLevel = 0;
+    public float totalTime = 0f;
+    public void SetHideKey()
+    {
+        hideKey++;
+    }
+    public void SetNowLevel(int index)
+    {
+        if (index > nowLevel)
+        {
+            nowLevel = index;
+        }
+    }
+
+    public void SetTotalTime(float time)
+    {
+        totalTime += time;
+    }
 }

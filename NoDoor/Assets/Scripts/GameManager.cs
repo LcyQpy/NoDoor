@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,35 +10,35 @@ public class GameManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = new GameManager();   
+                instance = new GameManager();
             }
             return instance;
         }
     }
-
-    private int buildIndex;
+    public int sceneIndex
+    {
+        get
+        {
+            return SceneManager.GetActiveScene().buildIndex;
+        }
+    }
     private void Start()
     {
-        buildIndex = SceneManager.GetActiveScene().buildIndex;
+
     }
     public void GameOver()
     {
-        SceneBuildIndex();
-        SceneManager.LoadScene(buildIndex + 1, LoadSceneMode.Single);
-        var js =  new PlayerInfos();
-        js.LoadGameData();
-        
-        js.SaveGameData();
+        PlayerInfos.Instance.playerInfo.SetNowLevel(sceneIndex + 1);
+        SceneManager.LoadScene(this.sceneIndex + 1, LoadSceneMode.Single);
     }
     public void ReloadLevel()
     {
-        SceneBuildIndex();
-        SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
+        SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
     public void OnBackBtnClick()
     {
-        if (buildIndex == 0)
+        if (sceneIndex == 0)
         {
             Application.Quit();
         }
@@ -55,9 +52,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
-
-    private void SceneBuildIndex()
+    private void Update()
     {
-        buildIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("SceneIndex:" + sceneIndex);
+    }
+
+    public void LoadLevelByBuoldIndex(int buildIndex)
+    {
+        SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Single);
     }
 }
