@@ -23,6 +23,8 @@ public class PlayerControl : MonoBehaviour
     private Collider2D col;
     private playerState state;
     private Scene nowScenen;
+    public AudioSource audioSource;
+    public AudioClip running;
 
 
     [SerializeField] private LayerMask jumpGround;
@@ -75,11 +77,29 @@ public class PlayerControl : MonoBehaviour
         if (dirX > 0)
         {
             state = MovementState.run;
+            audioSource.clip = running;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.Stop();
+            }
             spriteRenderer.flipX = false;
         }
         else if(dirX < 0)
         {
             state = MovementState.run;
+            audioSource.clip = running;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.Stop();
+            }
             spriteRenderer.flipX = true;
         }
         else
