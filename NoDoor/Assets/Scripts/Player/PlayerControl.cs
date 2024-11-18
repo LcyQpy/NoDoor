@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +23,7 @@ public class PlayerControl : MonoBehaviour
     private Collider2D col;
     private playerState state;
     private Scene nowScenen;
+
 
     [SerializeField] private LayerMask jumpGround;
 
@@ -85,7 +87,7 @@ public class PlayerControl : MonoBehaviour
             state = MovementState.idle;
         }
 
-        if (rig.velocity.y > .1f)
+        if (rig.velocity.y > .1f && !isGround())
         {
             state = MovementState.jump;
         }
@@ -106,6 +108,11 @@ public class PlayerControl : MonoBehaviour
         else if(collision.gameObject.tag == "Key")
         {
             hasKey = true;
+            collision.gameObject.transform.localScale = Vector2.MoveTowards(collision.gameObject.transform.localScale, Vector2.zero, 10f);
+            Destroy(collision.gameObject);
+        }else if(collision.gameObject.tag == "Trap")
+        {
+            GameManager.Instance.ReloadLevel();
         }
     }
 

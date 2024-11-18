@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("SceneIndex:" + sceneIndex);
+        //Debug.Log("SceneIndex:" + sceneIndex);
     }
 
     public void LoadLevelByBuoldIndex(int buildIndex)

@@ -5,15 +5,39 @@ using UnityEngine;
 
 public class MovePlatForm : MonoBehaviour
 {
-    public Vector2 direction;
-    public float moveTime;
-    bool enbleMove = true;
-    private void OnTriggerEnter2D(Collider2D collision)
+    [SerializeField] private GameObject[] points;
+    [SerializeField] private float speed = 2f;
+    [SerializeField] private bool isLoop = true;
+    [SerializeField] private bool isTriggerMove = false;
+    public bool onTrigger = false;
+
+    private int pointNum = 1;
+    private void Update()
     {
-        if (collision.gameObject.tag == "Player" && enabled)
+        UpdatePoint();
+        Move(isTriggerMove, onTrigger);
+    }
+    private void Move(bool isTriggerMove, bool trigger)
+    {
+        if (isTriggerMove)
         {
-            transform.position = Vector2.MoveTowards(transform.position, direction, moveTime);
-            enabled = false; 
+            if (trigger) {
+                transform.position = Vector2.MoveTowards(transform.position, points[pointNum].transform.position, Time.deltaTime * speed);
+            }
+        }
+        else
+        {
+            transform.position = Vector2.MoveTowards(transform.position, points[pointNum].transform.position, Time.deltaTime * speed);
+        }
+        
+    }
+
+    private void UpdatePoint()
+    {
+        if (Vector2.Distance(transform.position, points[pointNum].transform.position) < 0.1f && isLoop)
+        {
+            pointNum = 1 - pointNum;
         }
     }
 }
+
