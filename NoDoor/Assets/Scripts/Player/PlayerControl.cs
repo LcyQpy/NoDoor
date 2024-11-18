@@ -77,15 +77,6 @@ public class PlayerControl : MonoBehaviour
         if (dirX > 0)
         {
             state = MovementState.run;
-            audioSource.clip = running;
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-            else
-            {
-                audioSource.Stop();
-            }
             spriteRenderer.flipX = false;
         }
         else if(dirX < 0)
