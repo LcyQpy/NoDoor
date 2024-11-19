@@ -1,3 +1,4 @@
+using System.Net.NetworkInformation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,10 +26,11 @@ public class PlayerControl : MonoBehaviour
     private Scene nowScenen;
     public AudioSource audioSource;
     public AudioClip running;
-
+    public AudioClip jump;
+    private MovementState tempState;
+    public AudioClip Ringing;
 
     [SerializeField] private LayerMask jumpGround;
-
     private enum MovementState{ idle, run, jump, fall };
     private void Start()
     {
@@ -51,7 +53,7 @@ public class PlayerControl : MonoBehaviour
         }
         if (state == playerState.die)
         {
-            SceneManager.LoadScene(nowScenen.name, LoadSceneMode.Single);
+            GameManager.Instance.ReloadLevel();
         }
     }
 
@@ -67,7 +69,11 @@ public class PlayerControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGround())
         {
+            audioSource.Stop();
             rig.velocity = new Vector2(0, velocitySpeedY);
+            audioSource.clip = jump;
+            audioSource.loop = false;
+            audioSource.Play();
         }
     }
 
@@ -82,20 +88,12 @@ public class PlayerControl : MonoBehaviour
         else if(dirX < 0)
         {
             state = MovementState.run;
-            audioSource.clip = running;
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-            else
-            {
-                audioSource.Stop();
-            }
             spriteRenderer.flipX = true;
         }
         else
         {
             state = MovementState.idle;
+            //audioSource.Stop();
         }
 
         if (rig.velocity.y > .1f && !isGround())
@@ -106,6 +104,11 @@ public class PlayerControl : MonoBehaviour
         {
             state = MovementState.fall;
         }
+        if (tempState != state)
+        {
+            StateChange(state);
+        }
+        tempState = state;
         animator.SetInteger("state", (int)state);
     }
 
@@ -119,11 +122,15 @@ public class PlayerControl : MonoBehaviour
         else if(collision.gameObject.tag == "Key")
         {
             hasKey = true;
+            audioSource.Stop();
+            audioSource.clip = Ringing;
+            audioSource.loop = false;
+            audioSource.Play();
             collision.gameObject.transform.localScale = Vector2.MoveTowards(collision.gameObject.transform.localScale, Vector2.zero, 10f);
             Destroy(collision.gameObject);
         }else if(collision.gameObject.tag == "Trap")
         {
-            GameManager.Instance.ReloadLevel();
+            state = playerState.die;
         }
     }
 
@@ -131,4 +138,27 @@ public class PlayerControl : MonoBehaviour
     {
         return Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, .1f, jumpGround);
     }
+
+    private void StateChange(MovementState state) // ×´Ì¬¸Ä±ä
+    {
+        switch (state)
+        {
+            case MovementState.idle:
+                audioSource.Stop();
+                break;
+            case MovementState.run:
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.clip = running;
+                    audioSource.loop = true;
+                    audioSource.Play();
+                }
+                break;
+            case MovementState.jump:
+                break;
+            default:
+                break;
+        }
+    }
+
 }

@@ -8,8 +8,11 @@ using UnityEngine.SceneManagement;
 
 public class PenalControl : MonoBehaviour
 {
-    public void OnLevelBtnClick(string sceneName)
+    [SerializeField]
+    private int Levelnum;
+    public void OnLevelBtnClick()
     {
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        SceneManager.LoadScene(this.gameObject.name, LoadSceneMode.Single);
     }
+
 }
