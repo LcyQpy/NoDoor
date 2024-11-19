@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
     {
         animator = GameObject.Find("Finish").GetComponent<Animator>();
         animator.SetBool("gameOver", true);
-        LoadNextScene();
     }
     public void LoadNextScene()
     {
