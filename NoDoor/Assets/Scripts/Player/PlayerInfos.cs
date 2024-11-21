@@ -18,17 +18,12 @@ public class PlayerInfos : MonoBehaviour
         }
     }
 
-    public PlayerInfo playerInfo = new PlayerInfo();
     private void Start()
     {
         LoadGameData();
     }
 
-    private void InitPlayerInfo()
-    {
-        playerInfo = new PlayerInfo();
-    }
-    public void SaveGameData( )
+    public void SaveGameData(PlayerInfo playerInfo)
     {
         string json = JsonUtility.ToJson(playerInfo);
         string filePath = Application.streamingAssetsPath + "/PlayerData.json";
@@ -40,8 +35,9 @@ public class PlayerInfos : MonoBehaviour
         }
     }
 
-    public void LoadGameData()
+    public PlayerInfo LoadGameData()
     {
+        PlayerInfo playerInfo;
         string json;
         string filePath = Application.streamingAssetsPath + "/PlayerData.json";
         if (File.Exists(filePath))
@@ -55,35 +51,38 @@ public class PlayerInfos : MonoBehaviour
         }
         else
         {
-            InitPlayerInfo();
+            using (StreamWriter sw = File.CreateText(filePath))
+            {
+                playerInfo = new PlayerInfo();
+                json = JsonUtility.ToJson(playerInfo);
+                sw.WriteLine(json);
+            }
         }
-    }
-    private void OnDestroy()
-    {
-        SaveGameData();
-        playerInfo.SetTotalTime(Time.realtimeSinceStartup);
+        return playerInfo;
     }
 }
 
 public class PlayerInfo
 {
     public int hideKey = 0;    
-    public int nowLevel = 0;
-    public float totalTime = 0f;
+    public int nowLevel = 1;
+    private int MaxLevel = 15;
     public void SetHideKey()
     {
         hideKey++;
     }
     public void SetNowLevel(int index)
     {
-        if (index > nowLevel)
+        if (index <= MaxLevel)
         {
-            nowLevel = index;
+            if (index > nowLevel)
+            {
+                nowLevel = index;
+            }
         }
-    }
-
-    public void SetTotalTime(float time)
-    {
-        totalTime += time;
+        else
+        {
+            nowLevel = MaxLevel;
+        }
     }
 }

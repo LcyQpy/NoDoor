@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 521196934688867602}
   - component: {fileID: 7721828177602286689}
-  - component: {fileID: 2033683146062987531}
   - component: {fileID: 4778261427465812551}
+  - component: {fileID: 3110682011584681668}
   m_Layer: 10
   m_Name: Trap
   m_TagString: Trap
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: -926361845
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5ff840d92f6de514b90a616296272ba6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 23c7e7e66d7f3834e8a3636d408893e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,7 +86,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!68 &2033683146062987531
+--- !u!50 &4778261427465812551
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4728084483671526062}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!68 &3110682011584681668
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,46 +142,19 @@ EdgeCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.7554264, y: -0.24236393}
-  - {x: -0.6231365, y: 0.061844826}
-  - {x: -0.5624857, y: 0.1320858}
-  - {x: 0.62940836, y: 0.12569809}
-  - {x: 0.6929784, y: 0.05926895}
-  - {x: 0.7536173, y: -0.24417257}
+  - {x: -0.7515713, y: -0.25034097}
+  - {x: -0.7511308, y: -0.18740171}
+  - {x: -0.63041216, y: 0.06598605}
+  - {x: 0.43935424, y: 0.0639942}
+  - {x: 0.502118, y: -0.062653154}
+  - {x: 0.50220907, y: -0.24972013}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!50 &4778261427465812551
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4728084483671526062}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

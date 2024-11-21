@@ -1,7 +1,9 @@
 using System.Net.NetworkInformation;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -18,19 +20,23 @@ public class PlayerControl : MonoBehaviour
     private Animator animator;
     private float dirX;
     private SpriteRenderer spriteRenderer;
+    [SerializeField] private LayerMask jumpGround;
     [SerializeField]
-    private Vector2 te;
     private Rigidbody2D rig;
     private Collider2D col;
-    private playerState state;
+    private playerState tempPlayerState;
+    private playerState state = playerState.alive;
+    private MovementState tempState;
+
     private Scene nowScenen;
+    [Header("“Ù∆µ")]
     public AudioSource audioSource;
     public AudioClip running;
     public AudioClip jump;
-    private MovementState tempState;
-    public AudioClip Ringing;
+    public AudioClip getKey;
+    public AudioClip playerDieth;
 
-    [SerializeField] private LayerMask jumpGround;
+    
     private enum MovementState{ idle, run, jump, fall };
     private void Start()
     {
@@ -44,16 +50,12 @@ public class PlayerControl : MonoBehaviour
     }
     void Update()
     {
-        PlayerJump();
-        PlayerMove();
-        CheckAnimationState();
-        if (transform.position.y < -12f)
+        if (rig.bodyType != RigidbodyType2D.Static)
         {
-            state = playerState.die;
-        }
-        if (state == playerState.die)
-        {
-            GameManager.Instance.ReloadLevel();
+            PlayerState();
+            PlayerJump();
+            PlayerMove();
+            CheckAnimationState();
         }
     }
 
@@ -61,8 +63,7 @@ public class PlayerControl : MonoBehaviour
     {
         horizontial = Input.GetAxis("Horizontal");
         dirX = horizontial;
-        rig.velocity = new Vector2 (horizontial * velocitySpeedX, rig.velocity.y);
-        te = rig.velocity;
+        rig.velocity = new Vector2(horizontial * velocitySpeedX, rig.velocity.y);
     }
 
     private void PlayerJump()
@@ -93,7 +94,6 @@ public class PlayerControl : MonoBehaviour
         else
         {
             state = MovementState.idle;
-            //audioSource.Stop();
         }
 
         if (rig.velocity.y > .1f && !isGround())
@@ -117,17 +117,17 @@ public class PlayerControl : MonoBehaviour
         Debug.Log(collision.name);
         if (collision.gameObject.tag == "Door" && hasKey)
         {
-            GameManager.Instance.GameOver();
+            Destroy(this.gameObject);
+            collision.gameObject.GetComponent<Animator>().SetTrigger("gameOver");
         }
         else if(collision.gameObject.tag == "Key")
         {
             hasKey = true;
             audioSource.Stop();
-            audioSource.clip = Ringing;
+            audioSource.clip = getKey;
             audioSource.loop = false;
             audioSource.Play();
-            collision.gameObject.transform.localScale = Vector2.MoveTowards(collision.gameObject.transform.localScale, Vector2.zero, 10f);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
         }else if(collision.gameObject.tag == "Trap")
         {
             state = playerState.die;
@@ -160,5 +160,31 @@ public class PlayerControl : MonoBehaviour
                 break;
         }
     }
-
+    private void PlayerState()
+    {
+        if (transform.position.y < -12f)
+        {
+            state = playerState.die;
+        }
+        if(tempPlayerState != state)
+            OnCanvasGroupChanged();
+        tempPlayerState = state;
+    }
+    private void OnCanvasGroupChanged()
+    {
+        if (state == playerState.die)
+        {
+            rig.bodyType = RigidbodyType2D.Static;
+            audioSource.Stop();
+            audioSource.clip = playerDieth;
+            audioSource.loop = false;
+            // ≤•∑≈À¿Õˆ∂Øª≠
+            animator.SetTrigger("death");
+            audioSource.Play();
+        }
+    }
+    public void Death()
+    {
+        GameManager.Instance.ReloadLevel();
+    }
 }

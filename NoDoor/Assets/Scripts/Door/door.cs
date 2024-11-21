@@ -5,8 +5,8 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     private Animator animator;
-    private void Start()
+    public void LevelSuccessful()
     {
-        animator = GetComponent<Animator>();
+        GameManager.Instance.GameOver();
     }
 }
