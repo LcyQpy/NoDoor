@@ -141,7 +141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -263809746, guid: 3e73bc7cd8c4113449b2a18efb216e00, type: 3}
+  m_Sprite: {fileID: 739961231, guid: 5721672627c94a947bf298c4065fbd97, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -382,11 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3b7506d76be07488a685b8875ad144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  PlayerPosition: {x: 0, y: 0}
-  PlayerPre: {fileID: 0}
   animator: {fileID: 0}
-  PlayerPreFilePath: Prefabs/Player
   level: {fileID: 0}
 --- !u!1 &8779702468678573317
 GameObject:

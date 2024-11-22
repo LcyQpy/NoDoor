@@ -578,10 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3b7506d76be07488a685b8875ad144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  PlayerPre: {fileID: 0}
   animator: {fileID: 0}
-  PlayerPreFilePath: Prefabs/Player
   level: {fileID: 0}
 --- !u!114 &703094812
 MonoBehaviour:
@@ -982,7 +979,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -130433169, guid: 3e73bc7cd8c4113449b2a18efb216e00, type: 3}
+  m_Sprite: {fileID: 918390353, guid: 14f38092e7653f345a9e7de98f5cd0fd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11861,7 +11858,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7008056983167530938, guid: fb56ec0b2ca58ee4e8ca99595b55c9c4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7008056983167530938, guid: fb56ec0b2ca58ee4e8ca99595b55c9c4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12001,10 +11998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3b7506d76be07488a685b8875ad144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  PlayerPre: {fileID: 0}
   animator: {fileID: 0}
-  PlayerPreFilePath: Prefabs/Player
   level: {fileID: 0}
 --- !u!1 &1745972864
 GameObject:

@@ -282,10 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3b7506d76be07488a685b8875ad144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  PlayerPre: {fileID: 0}
   animator: {fileID: 0}
-  PlayerPreFilePath: Prefabs/Player
   level: {fileID: 0}
 --- !u!114 &703094812
 MonoBehaviour:
@@ -446,7 +443,7 @@ GameObject:
   - component: {fileID: 1220404445}
   - component: {fileID: 1220404444}
   m_Layer: 5
-  m_Name: BackBtn
+  m_Name: Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -547,7 +544,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1271467798, guid: 3e73bc7cd8c4113449b2a18efb216e00, type: 3}
+  m_Sprite: {fileID: -1596447624, guid: 5721672627c94a947bf298c4065fbd97, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7735,10 +7732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3b7506d76be07488a685b8875ad144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  PlayerPre: {fileID: 0}
   animator: {fileID: 0}
-  PlayerPreFilePath: Prefabs/Player
   level: {fileID: 0}
 --- !u!81 &1633131902
 AudioListener:
